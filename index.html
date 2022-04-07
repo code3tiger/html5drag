@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Code3Tiger HTML5 API Drag and Drop</title>
+	<style>
+		div.itembox {
+			width: 140px;
+			height: 480px;
+			margin: 10px;
+			padding: 0px;
+			border: solid 1px #8B4513;
+			float: left;
+		}
+		div.bucket {
+			width: 700px;
+			height: 90vh;
+			margin: 10px;
+			padding: 0px;
+			border: solid 1px #8B4513;
+			float: left;
+		}
+		.item {
+			background: #eee;
+			display: inline-block;
+			height: 100px;
+			color: #fff;
+			padding: 10px;
+			box-sizing: border-box;
+			margin: 10px;
+		}
+		.item.is-dragging {
+			padding: 10px;
+			background-color: red;
+		}
+	</style>
+</head>
+
+<body>
+	<div>
+		<div id="itembox" class=itembox ondragover="_ondragover()"  ondrop="_ondrop(event)" >
+			<span id="n1" class="item" draggable="true" ondragstart="_ondragstart(event)" ondragend="_ondragend(event)">
+			<img draggable="false" width="100" src="http://farm9.staticflickr.com/8504/8365873811_d32571df3d_z.jpg"  ></span>
+			<span id="n2" class="item" draggable="true" ondragstart="_ondragstart(event)" ondragend="_ondragend(event)">
+			<img draggable="false" width="100" src="http://farm9.staticflickr.com/8068/8250438572_d1a5917072_z.jpg"  ></span>
+			<span id="n3" class="item" draggable="true" ondragstart="_ondragstart(event)" ondragend="_ondragend(event)">
+			<img draggable="false" width="100" src="http://farm9.staticflickr.com/8055/8098750623_66292a35c0_z.jpg"  ></span>
+			<span id="n4" class="item" draggable="true" ondragstart="_ondragstart(event)" ondragend="_ondragend(event)">
+			<img draggable="false" width="100" src="http://farm9.staticflickr.com/8195/8098750703_797e102da2_z.jpg" ></span>
+		</div>
+		<div id="bucket" class=bucket ondragover="_ondragover()" ondrop="_ondrop(event)"></div>
+	</div>
+
+	<script>
+		_ondragover = function() {
+			event.preventDefault();
+		}
+		_ondrop = function() {
+			//event.preventDefault();
+			//var _id  = event.dataTransfer.getData("text");
+			//event.target.appendChild(document.getElementById(_id ));
+			
+			var _id = event.dataTransfer.getData('text/plain');
+			console.log('_id:',_id)
+			var _moveEle = document.getElementById(_id );
+			var bucket = document.getElementById("bucket");
+			var itembox = document.getElementById("itembox")
+			var div = itembox.querySelector('#'+(_id ))
+			var clone = div.cloneNode(true)
+			bucket.append(clone);
+		}
+		
+		dragstart = function() {
+			event.dataTransfer.setData("text/plain", event.target.id);
+		}
+		_ondragstart = function() {
+			var _thisEle = event.target;
+			_thisEle.classList.add('is-dragging');
+			event.dataTransfer.setData('text/plain', _thisEle.id);
+		}
+		_ondragend = function() {
+			var _thisEle = event.target;
+			_thisEle.classList.remove('is-dragging');
+		};
+	</script>
+
+
+
+</body>
+
+</html>
